@@ -1,0 +1,21 @@
+import { chromium, test, expect } from "@playwright/test"
+
+test('test leaf application', async({page})=>
+{
+    await page.goto("https://www.decathlon.in/");
+    await page.locator("//div[contains(@class,'bg-grey-50 rounded-full')]//div[contains(@class,'text-12 sm:text-14 lg:text-[1rem] sm:tracking-[1px]')]").click();
+    await page.getByText('Shoes For Men').click();
+    await page.getByText('Men (310)').click();
+    await page.getByText('Uk 10.5 - eu 45 (4)').click();
+    await page.getByText('Running (2)').click();
+    await page.locator('p').filter({ hasText: 'ADD TO CART' }).first().click();
+    await page.locator("//div[contains(text(),'UK 10.5 - EU 45')]").click();
+    await page.getByRole('button', { name: 'ADD TO CART' }).click();
+    console.log(await page.locator("h3.ujxNWV" ).innerText());
+    await expect(page.locator("h3.ujxNWV")).toHaveText("Product added to cart");
+    await page.getByText('Cart', { exact: true }).click();
+    console.log(await page.locator('[data-test-id="cart:cart-checkout-total-cart-value"]').innerText());
+
+
+
+});
