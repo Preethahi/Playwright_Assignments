@@ -1,0 +1,24 @@
+import { chromium, test } from "@playwright/test"
+
+test('PVR Cinemas', async({page})=>
+{
+    await page.goto("https://www.pvrcinemas.com/.")
+    await page.waitForTimeout(3000);
+    await page.locator("(//span[contains(text(), 'Chennai')])[1]").click();
+    await page.locator("(//span[contains(text(), 'Cinema')])[1]").click();
+    await page.locator("//div[@id='cinema']").click();
+    await page.getByText('INOX National,Virugambakkam Chennai', { exact: true }).click();
+    //await page.locator("//div[@id='date']/span[contains(text(),'Select Date')").click();
+    await page.getByText('Today, 7 Mar', { exact: true }).click();
+    //await page.locator("//div[@id='movie']").click();
+    await page.locator('li:has-text("VADAM")').click();
+    //await page.locator("//div[@aria-label='Select Timing']").click();
+    await page.locator("//li[@class = 'p-dropdown-item']/span/span[text() = '04:00 PM']").click();
+    await page.locator("//button[@aria-label='Submit']").click()
+    await page.locator("//button[text()='Accept']").click();
+    //await page.locator("//tr[@class='seats-row']/td[2]/span").click();
+    await page.locator("//span[@SL.SILVER|C:7']").click();
+    await page.locator("//div[@class='grand-prices']/h6").innerText();
+    await page.locator("//button[text()='Proceed']").click();
+
+});
