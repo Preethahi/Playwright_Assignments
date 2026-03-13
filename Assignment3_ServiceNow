@@ -1,0 +1,30 @@
+import { test, expect } from "@playwright/test";
+
+
+test(`ServiceNow application`, async ({ page, context }) => {
+    await page.goto(`https://dev362917.service-now.com/navpage.do`);
+    await page.locator("#user_name").fill("admin");
+    await page.locator("#user_password").fill("sm5NFtfI6A%!")
+    await page.locator("#sysverb_login").click();
+
+    await page.locator("#d6e462a5c3533010cbd77096e940dd8c").click()
+    await page.getByText('Service Catalog', { exact: true }).click()
+    await page.frameLocator('#gsft_main').locator('h2').filter({ hasText: 'Mobiles' }).first().click()
+    await page.frameLocator('#gsft_main').locator('strong').filter({ hasText: 'Apple iPhone 13 pro' }).click()
+    await page.frameLocator('#gsft_main').locator('label').filter({ hasText: 'Yes' }).first().click()
+    await page.frameLocator('#gsft_main').locator('input[name="IO:4afecf4e9747011021983d1e6253af34"]').fill("7337228999")
+    await page.frameLocator('#gsft_main').locator('select[name="IO:ff1f478e9747011021983d1e6253af68"]').selectOption({ value: 'unlimited' });
+    await page.frameLocator('#gsft_main').locator('label').filter({ hasText: 'Sierra Blue' }).first().click()
+    await page.frameLocator('#gsft_main').locator('label').filter({ hasText: '512 GB [add $300.00]' }).first().click()
+
+    //Add to cart
+    await page.frameLocator('#gsft_main').locator('button[name="oi_add_to_cart_button"]').click()
+    await page.frameLocator('#gsft_main').getByRole('button', { name: 'Proceed to Checkout' }).click();
+   
+    await expect(page.frameLocator('#gsft_main').locator('span').filter({ hasText: 'Thank you, your request has been submitted' }).first()).toHaveText("Thank you, your request has been submitted");
+    await page.waitForTimeout(2000);
+    await page.screenshot({
+                path: 'fold/FullPages.png',
+                fullPage: true
+        });
+})
