@@ -1,0 +1,23 @@
+import { test, expect } from "@playwright/test";
+
+test.use({storageState:"Data/login_SF.json"})
+
+test(`Delete Lead`, async ({ page }) => {
+
+   await page.goto('https://orgfarm-a0bc339075-dev-ed.develop.lightning.force.com/lightning/n/devedapp__Welcome');
+   await page.getByText('App Launcher', { exact: true }).click();
+   await page.getByRole("button",{name:"View All Applications"}).click();
+   await page.getByPlaceholder("Search apps or items...",{exact:true}).fill("Leads");
+   await page.locator('mark').filter({ hasText: 'Leads' }).last().click();
+   await page.getByRole('button', { name: /Search/i }).click();
+   await page.getByPlaceholder('Search...', { exact: false }).fill('HiPreetha');
+   await page.keyboard.press('Enter');
+   await page.waitForLoadState('domcontentloaded');
+   await page.getByRole('link', { name: /HiPreetha/i }).first().click();
+   await page.locator("lightning-button-menu[class='menu-button-item slds-dropdown_actions slds-dropdown-trigger slds-dropdown-trigger_click'] lightning-primitive-icon[variant='bare']").click()
+   await page.locator("lightning-menu-item[data-target-selection-name='sfdc:StandardButton.Lead.Delete'] span").click()
+   await page.getByRole('button', { name: 'Delete' }).click();
+   
+   //await page.waitForTimeout(3000)
+
+})
