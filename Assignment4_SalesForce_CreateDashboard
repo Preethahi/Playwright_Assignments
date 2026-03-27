@@ -1,0 +1,32 @@
+import { test, expect } from "@playwright/test";
+
+test.use({storageState:"Data/login_SF.json"})
+
+test(`Create Dashboard`, async ({ page }) => {
+
+   await page.goto('https://orgfarm-a0bc339075-dev-ed.develop.lightning.force.com/lightning/n/devedapp__Welcome');
+   await page.getByText('App Launcher', { exact: true }).click();
+   await page.getByRole("button",{name:"View All Applications"}).click();
+   await page.getByPlaceholder("Search apps or items...",{exact:true}).fill("Dashboards");
+   await page.locator('mark').filter({ hasText: 'Dashboards' }).last().click();
+   await page.locator("//div[@title='New Dashboard']").click();
+   
+
+const frame = page.frameLocator('iframe[title="dashboard"]');
+
+await frame.locator('#dashboardNameInput').waitFor({ state: 'visible' });
+
+await frame.locator('#dashboardNameInput')
+  .fill("Salesforce Automation by M_Preetha_100");
+
+await frame.getByRole('button', { name: 'Create' }).click();
+
+const newFrame = page.frameLocator('iframe[title="dashboard"]');
+
+await expect(newFrame.locator('span.slds-form-element__static'))
+  .toContainText("Salesforce Automation by M_Preetha_100");
+
+await newFrame.getByRole('button', { name: 'Save' }).click();
+   await page.waitForTimeout(3000)
+
+})
