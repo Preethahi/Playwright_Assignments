@@ -5,7 +5,7 @@ test.use({storageState:"Data/login_SF.json"})
 
 test(`Create lead`, async ({ page }) => {
 
-   await page.goto('https://orgfarm-a0bc339075-dev-ed.develop.lightning.force.com/lightning/n/devedapp__Welcome');
+   await page.goto('https://xxxxxxxxxxxxxxxxx-dev-ed.develop.lightning.force.com/lightning/n/devedapp__Welcome');
    await page.getByText('App Launcher', { exact: true }).click();
    await page.getByRole("button",{name:"View All Applications"}).click();
    await page.getByPlaceholder("Search apps or items...",{exact:true}).fill("Leads");
